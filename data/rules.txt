@@ -1,15 +1,17 @@
+S -> M
+
 R -> C {
     R.value = <newReg>
-    emit "LD " R.value ", #" C.value
+    emit "LD R" R.value ", #" C.value
 }
 
 R -> M {
     R.value = <newReg>
-    emit "LD " R.value ", " M.value
+    emit "LD R" R.value ", " M.value
 }
 
 M -> = M$1 R {
-    emit "ST " $1.value ", " R.value
+    emit "ST " $1.value ", R" R.value
 }
 
 M -> = ind R$1 R$2 {
@@ -35,3 +37,7 @@ R$1 -> + R$2 C [C.value = "1"] {
     $1.value = $2.value
     emit "INC R" $1.value
 }
+
+R -> register { R.value = register.value }
+
+M -> memory { M.value = memory.value }

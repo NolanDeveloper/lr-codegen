@@ -118,9 +118,9 @@ class ParserContext(private val lexer: Lexer<Token>) {
         }
     }
 
-    private fun parseAction(): List<Statement> {
+    private fun parseAction(): RuleAction? {
         val actionBlock = expect(ActionBlock::class)?.content ?: ""
-        return actionBlock.lines().filter { it.isNotBlank() }.map { parseStatement(it) }
+        return actionBlock.lines().filter { it.isNotBlank() }.map { parseStatement(it) }.let { RuleAction(it) }
     }
 
     private fun parseRule(): Rule? {
